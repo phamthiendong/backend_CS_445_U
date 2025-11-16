@@ -1,16 +1,17 @@
-import { Entity, PrimaryGeneratedColumn, Column, Index } from 'typeorm';
-import { UserStatus, IUser } from '../interfaces/user.interface';
+import { Entity, PrimaryGeneratedColumn, Column, DeleteDateColumn, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { UserStatus, IUser, UserRole } from '../interfaces/user.interface';
+import { ActivityLog } from 'src/modules/activityLogs/entities/activityLog.entity';
 
 @Entity('users')
 export class User implements IUser {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @Column({ name: 'first_name', type: 'varchar', length: 100, nullable: false })
-  firstName: string;
+  @Column({ name: 'first_name', type: 'varchar', length: 100, nullable: true })
+  firstName: string | null;
 
-  @Column({ name: 'last_name', type: 'varchar', length: 100, nullable: false })
-  lastName: string;
+  @Column({ name: 'last_name', type: 'varchar', length: 100, nullable: true })
+  lastName: string | null;
 
   @Column({ name: 'email', type: 'varchar', length: 191, nullable: false, unique: true })
   email: string;
@@ -18,18 +19,36 @@ export class User implements IUser {
   @Column({ name: 'password', type: 'varchar', length: 255, nullable: false })
   password: string;
 
-  @Column('enum', { name: 'status', default: UserStatus.INACTIVE, enum: UserStatus })
+  @Column({ name: 'status', type: 'enum', enum: UserStatus, default: UserStatus.INACTIVE })
   status: UserStatus;
 
-  @Column({ name: 'is_deleted', type: 'boolean', default: false })
-  isDeleted: boolean;
+  @Column({ name: 'role', type: 'enum', enum: UserRole, default: UserRole.USER })
+  role: UserRole;
 
-  @Column({ name: 'deleted_at', type: 'timestamp', nullable: true })
+  @DeleteDateColumn({ name: 'deleted_at' })
   deletedAt?: Date;
 
-  @Column({ name: 'created_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   createdAt: Date;
 
-  @Column({ name: 'updated_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
   updatedAt: Date;
+
+  @Column({ name: 'is_active', type: 'boolean', default: false })
+  isActive: boolean;
+
+  @Column({ name: 'failed_login_attempt', type: 'int', default: 0 })
+  failedLoginAttempt: number;
+
+  @Column({ name: 'failed_login_time', type: 'timestamp', nullable: true })
+  failedLoginTime: Date | null;
+
+  @Column({ name: 'refresh_token', type: 'varchar', length: 255, nullable: true })
+  refreshToken: string | null;
+
+  @Column({ name: 'is_project_owner', type: 'boolean', default: false })
+  isProjectOwner: boolean;
+
+  @OneToMany(() => ActivityLog, (activityLog) => activityLog.user, { cascade: true })
+  activityLogs?: ActivityLog[];
 }

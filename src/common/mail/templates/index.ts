@@ -1,4 +1,4 @@
-import { ConfigService } from 'src/configs/config.service';
+import { ConfigService } from '@nestjs/config';
 
 const configService = new ConfigService();
 
@@ -12,7 +12,7 @@ export const EmailVerificationTemplate = (verificationToken: string) => {
 export const EmailVerifiedTemplate = () => {
   return `Hi! <br><br> Thanks for your verifying your email.<br><br>
     <p>Please continue using the services form Orange Cleaning.</p>
-    <a href="${configService.get('WEB_APP_URL')}}/signIn">Click here to Login</a>
+    <a href='${configService.get('WEB_APP_URL')}}/signIn'>Click here to Login</a>
     <br>Regards,<br>Orange Cleaning Team`;
 };
 
@@ -26,6 +26,27 @@ export const ForgotPasswordTemplate = (newPasswordToken: string) => {
 export const PasswordResetTemplate = () => {
   return `Hi! <br><br> You've successfully reset your password.<br><br>
   <p>Please click the link below to continue.</p><br>
-  <a href="${configService.get('WEB_APP_URL')}/signIn">Click here</a>
+  <a href='${configService.get('WEB_APP_URL')}/signIn'>Click here</a>
   <br>Regards,</br>Orange Cleaning Team`;
 };
+
+export const TEMPLATE_MAIL = {
+  VERIFY_EMAIL: {
+    name: 'verifyEmail',
+    subject: 'IS Project - Confirm your email address'
+  },
+  RESEND_VERIFICATION_CODE: {
+    name: 'resendVerificationCode',
+    subject: 'IS Project - Resend verification code'
+  },
+  SEND_RESET_PASSWORD: {
+    name: 'sendResetPassword',
+    subject: 'IS Project - Reset your password'
+  },
+  INVITE_MEMBER_TO_PROJECT: {
+    name: 'inviteMemberToProject',
+    subject: 'IS Project - Project invitation'
+  }
+} as const;
+
+export const MAIL_FROM = 'no-reply@npis.com';

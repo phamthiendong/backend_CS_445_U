@@ -1,57 +1,44 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
-
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
-
-import { ConfigModule } from './configs/config.module';
-import { ConfigService } from './configs/config.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './modules/users/entities/user.entity';
-import { UserModule } from './modules/users/user.module';
-import { AuthModule } from './modules/auth/auth.module';
 import { CustomLogger } from './common/modules/logger/customerLogger.service';
 import { LoggerMiddleware } from './common/middlewares/middleware';
-import { MailModule } from './common/modules/mail/mail.module';
 
-console.log({
-  type: 'mysql',
-  host: process.env.DATABASE_HOST || 'localhost',
-  port: parseInt(process.env.DATABASE_PORT) || 3306,
-  username: process.env.DATABASE_USERNAME || 'root',
-  password: process.env.DATABASE_PASSWORD || 'root',
-  database: process.env.DATABASE_DATABASE || 'test',
-  entities: [User],
-  logging: true,
-  synchronize: true
-});
+import { UserModule } from './modules/users/user.module';
+import { AuthModule } from './modules/auth/auth.module';
+
+import { EventModule } from './common/modules/events/event.module';
+import { ActivityLogModule } from './modules/activityLogs/activityLog.module';
+import { DatabaseModule } from './common/databases/database.module';
+import { MailModule } from './common/mail/mail.module';
+
 @Module({
   imports: [
-    ConfigModule,
+    // Config Module
+    ConfigModule.forRoot({
+      isGlobal: true
+    }),
 
     // Schedule Modules
     ScheduleModule.forRoot(),
 
-    // Database Connection Config
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: process.env.DATABASE_HOST || 'localhost',
-      port: parseInt(process.env.DATABASE_PORT) || 3306,
-      username: process.env.DATABASE_USERNAME || 'root',
-      password: process.env.DATABASE_PASSWORD || 'root',
-      database: process.env.DATABASE_DATABASE || 'test',
-      entities: [User],
-      logging: true,
-      synchronize: true
-    }),
-    TypeOrmModule.forFeature([]),
+    // Database Module
+    DatabaseModule,
 
+    // Mail Module
     MailModule,
 
+    // Event Module
+    EventModule,
+
+    // Feature Modules
     UserModule,
-    AuthModule
+    AuthModule,
+    ActivityLogModule
   ],
   controllers: [AppController],
-  providers: [ConfigService, CustomLogger]
+  providers: [CustomLogger]
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {

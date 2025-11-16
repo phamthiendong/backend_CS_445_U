@@ -2,9 +2,9 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
-import { IJwtPayload } from '../interfaces/auth.interface';
 import { UserService } from '../../users/user.service';
 import { ERROR_MESSAGES } from 'src/common/constants/errorMessage.constant';
+import { IJwtPayload } from '../interfaces/jwtPayload.interface';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -21,7 +21,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException(ERROR_MESSAGES.auth.INVALID_TOKEN_TYPE);
     }
 
-    const user = await this.userService.getUserById(payload.id);
+    const user = await this.userService.getAuthUser(payload.id);
     if (!user || user.data.status === 'blocked' || user.data.status === 'suspended') {
       throw new UnauthorizedException(ERROR_MESSAGES.auth.USER_NOT_ACTIVE);
     }

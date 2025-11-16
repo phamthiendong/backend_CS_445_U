@@ -7,9 +7,10 @@ import { UpdateUserDto } from './dto/updateUser.dto';
 import { GetUsersDto } from './dto/getUsers.dto';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ERROR_MESSAGES } from 'src/common/constants/errorMessage.constant';
-import { UserStatus } from './interfaces/user.interface';
 import { Public } from '../auth/decorators/public.decorator';
 import { CurrentUser } from '../auth/decorators/currentUser.decorator';
+import { UserStatus } from './interfaces/user.interface';
+import { IUserRequest } from 'src/types/express';
 
 @Controller('users')
 @ApiTags('Users')
@@ -21,11 +22,11 @@ export class UserController extends BaseController {
   @Post()
   @Public()
   @ApiOperation({ summary: 'Create a new user' })
-  @ApiResponse({ status: 201, description: 'User created successfully' })
-  @ApiResponse({ status: 400, description: 'Bad request' })
+  @ApiResponse({ status: HttpStatus.CREATED, description: 'User created successfully' })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad request' })
   async createUser(@Res() res: Response, @Body() createUserDto: CreateUserDto): Promise<Response> {
     try {
-      const response = await this.userService.createUser(createUserDto);
+      const response = await this.userService.createAndGetAuthUser(createUserDto);
       return this.responseCreated(res, response);
     } catch (error) {
       console.log(error);
@@ -41,7 +42,7 @@ export class UserController extends BaseController {
   @ApiResponse({ status: 200, description: 'Users retrieved successfully' })
   async getUsers(@Res() res: Response, @Query() getUsersDto: GetUsersDto): Promise<Response> {
     try {
-      const response = await this.userService.getUsers(getUsersDto);
+      const response = await this.userService.getAuthUsers(getUsersDto);
       return this.responseSuccess(res, response);
     } catch (error) {
       console.log(error);
@@ -58,7 +59,7 @@ export class UserController extends BaseController {
   @ApiResponse({ status: 404, description: 'User not found' })
   async getUserById(@Res() res: Response, @Param('id') id: number): Promise<Response> {
     try {
-      const response = await this.userService.getUserById(id);
+      const response = await this.userService.getAuthUser(id);
       return this.responseSuccess(res, response);
     } catch (error) {
       console.log(error);
@@ -76,7 +77,7 @@ export class UserController extends BaseController {
   @ApiResponse({ status: 400, description: 'Bad request' })
   async updateUser(@Res() res: Response, @Param('id') id: number, @Body() updateUserDto: UpdateUserDto): Promise<Response> {
     try {
-      const response = await this.userService.updateUser(id, updateUserDto);
+      const response = await this.userService.updateAndGetAuthUser(id, updateUserDto);
       return this.responseSuccess(res, response);
     } catch (error) {
       console.log(error);
@@ -114,7 +115,7 @@ export class UserController extends BaseController {
   @ApiResponse({ status: 404, description: 'User not found' })
   async changeUserStatus(@Res() res: Response, @Param('id') id: number, @Body('status') status: UserStatus): Promise<Response> {
     try {
-      const response = await this.userService.changeUserStatus(id, status);
+      const response = await this.userService.updateAndGetAuthUser(id, { status });
       return this.responseSuccess(res, response);
     } catch (error) {
       console.log(error);
@@ -128,9 +129,9 @@ export class UserController extends BaseController {
   @Get('profile/me')
   @ApiOperation({ summary: 'Get current user profile' })
   @ApiResponse({ status: 200, description: 'User profile retrieved successfully' })
-  async getCurrentUserProfile(@Res() res: Response, @CurrentUser() user: any): Promise<Response> {
+  async getCurrentUserProfile(@Res() res: Response, @CurrentUser() user: IUserRequest): Promise<Response> {
     try {
-      const response = await this.userService.getUserById(user.id);
+      const response = await this.userService.getAuthUser(user.id);
       return this.responseSuccess(res, response);
     } catch (error) {
       console.log(error);
