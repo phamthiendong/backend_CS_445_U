@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res, HttpCode, HttpStatus, Get, Put } from '@nestjs/common';
+import { Body, Controller, Post, Res, HttpCode, HttpStatus, Get, Put, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
@@ -15,6 +15,10 @@ import { ResetPasswordDto } from './dto/resetPassword.dto';
 import { CurrentUser } from './decorators/currentUser.decorator';
 import { SocialLoginDto } from './dto/socialLogin.dto';
 import { IUserRequest } from 'src/types/express';
+import { PermissionGuard } from '../common/guards/permission.guard';
+import { JwtAuthGuard } from './guards/jwtAuth.guard';
+import { RequirePermission } from '../common/decorators/requirePermission.decorator';
+import { PERMISSIONS } from '../common/constants/permission.constant';
 
 @Controller('auth')
 @ApiTags('Authentication')
@@ -22,7 +26,6 @@ export class AuthController extends BaseController {
   constructor(private readonly authService: AuthService) {
     super();
   }
-
   @Post('register')
   @Public()
   @HttpCode(HttpStatus.CREATED)

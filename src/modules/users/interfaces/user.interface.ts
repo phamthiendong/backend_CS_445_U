@@ -6,7 +6,7 @@ export enum UserStatus {
 }
 
 export enum UserRole {
-  SUPER_ADMIN = 'super_admin',
+  DOCTOR = 'doctor',
   ADMIN = 'admin',
   USER = 'user'
 }

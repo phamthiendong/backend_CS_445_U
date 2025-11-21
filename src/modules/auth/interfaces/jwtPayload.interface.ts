@@ -1,3 +1,5 @@
+import { UserRole } from 'src/modules/users/interfaces/user.interface';
+
 export enum JwtType {
   ACCESS = 'access',
   REFRESH = 'refresh',
@@ -16,6 +18,7 @@ export interface IJwtBasePayload {
 // Standard JWT payload với user info
 export interface IJwtPayload extends IJwtBasePayload {
   email: string;
+  role: UserRole;
   type: JwtType.ACCESS | JwtType.REFRESH;
 }
 

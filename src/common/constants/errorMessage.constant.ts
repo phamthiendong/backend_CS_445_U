@@ -198,128 +198,33 @@ export const ERROR_MESSAGES = {
       code: 'USER_RETRIEVED_SUCCESSFULLY'
     }
   },
-  project: {
-    INVALID_NAME_LENGTH: {
-      message: 'INVALID_NAME_LENGTH',
-      status: HttpStatus.BAD_REQUEST,
-      code: 'INVALID_NAME_LENGTH'
-    },
-    INVALID_END_DATE: {
-      message: 'INVALID_END_DATE',
-      status: HttpStatus.BAD_REQUEST,
-      code: 'INVALID_END_DATE'
-    },
-    MEMBERS_DUPLICATED: {
-      message: 'MEMBERS_DUPLICATED',
-      status: HttpStatus.BAD_REQUEST,
-      code: 'MEMBERS_DUPLICATED'
-    },
-    PROJECT_NAME_ALREADY_EXISTS: {
-      message: 'PROJECT_NAME_ALREADY_EXISTS',
-      status: HttpStatus.BAD_REQUEST,
-      code: 'PROJECT_NAME_ALREADY_EXISTS'
-    },
-    INVALID_MEMBER: {
-      message: 'INVALID_MEMBER',
-      status: HttpStatus.BAD_REQUEST,
-      code: 'INVALID_MEMBER'
-    },
-    ROLE_NO_DEFAULT_PERMISSIONS: {
-      message: 'ROLE_NO_DEFAULT_PERMISSIONS',
-      status: HttpStatus.INTERNAL_SERVER_ERROR,
-      code: 'ROLE_NO_DEFAULT_PERMISSIONS'
-    },
-    USER_NOT_PROJECT_OWNER: {
-      message: 'USER_NOT_PROJECT_OWNER',
-      status: HttpStatus.FORBIDDEN,
-      code: 'USER_NOT_PROJECT_OWNER'
-    },
-    PROJECT_NOT_FOUND: {
-      message: 'PROJECT_NOT_FOUND',
-      status: HttpStatus.BAD_REQUEST,
-      code: 'PROJECT_NOT_FOUND'
-    },
-    PROJECT_MISSING_REQUIRED_FIELDS: {
-      message: 'PROJECT_MISSING_REQUIRED_FIELDS',
-      status: HttpStatus.BAD_REQUEST,
-      code: 'PROJECT_MISSING_REQUIRED_FIELDS'
-    },
-    INVALID_STATUS: {
-      message: 'INVALID_STATUS',
-      status: HttpStatus.BAD_REQUEST,
-      code: 'INVALID_STATUS'
-    },
-    USER_NOT_FOUND: {
-      message: 'USER_NOT_FOUND',
+  doctor: {
+    DOCTOR_NOT_FOUND: {
+      message: 'DOCTOR_NOT_FOUND',
       status: HttpStatus.NOT_FOUND,
-      code: 'USER_NOT_FOUND'
+      code: 'DOCTOR_NOT_FOUND'
     },
-    INVALID_INVITATION: {
-      message: 'INVALID_INVITATION',
+    DOCTOR_EMAIL_ALREADY_EXISTS: {
+      message: 'DOCTOR_EMAIL_ALREADY_EXISTS',
       status: HttpStatus.BAD_REQUEST,
-      code: 'INVALID_INVITATION'
+      code: 'DOCTOR_EMAIL_ALREADY_EXISTS'
     },
-    EXPIRED_INVITATION: {
-      message: 'EXPIRED_INVITATION',
+    DOCTOR_ALREADY_EXISTS: {
+      message: 'DOCTOR_ALREADY_EXISTS',
       status: HttpStatus.BAD_REQUEST,
-      code: 'EXPIRED_INVITATION'
+      code: 'DOCTOR_ALREADY_EXISTS'
     },
-    INVITATION_ALREADY_ACCEPTED: {
-      message: 'INVITATION_ALREADY_ACCEPTED',
+
+    INVALID_SPECIALTY: {
+      message: 'INVALID_SPECIALTY',
       status: HttpStatus.BAD_REQUEST,
-      code: 'INVITATION_ALREADY_ACCEPTED'
+      code: 'INVALID_SPECIALTY'
     },
-    INVITATION_ALREADY_REJECTED: {
-      message: 'INVITATION_ALREADY_REJECTED',
+
+    INVALID_EXPERIENCE_YEARS: {
+      message: 'INVALID_EXPERIENCE_YEARS',
       status: HttpStatus.BAD_REQUEST,
-      code: 'INVITATION_ALREADY_REJECTED'
-    },
-    USER_NOT_PROJECT_MEMBER: {
-      message: 'USER_NOT_PROJECT_MEMBER',
-      status: HttpStatus.BAD_REQUEST,
-      code: 'USER_NOT_PROJECT_MEMBER'
-    }
-  },
-  task: {
-    INVALID_NAME_LENGTH: {
-      message: 'INVALID_NAME_LENGTH',
-      status: HttpStatus.BAD_REQUEST,
-      code: 'INVALID_NAME_LENGTH'
-    },
-    INVALID_END_DATE: {
-      message: 'INVALID_END_DATE',
-      status: HttpStatus.BAD_REQUEST,
-      code: 'INVALID_END_DATE'
-    },
-    ASSIGNEE_NOT_PROJECT_MEMBER: {
-      message: 'ASSIGNEE_NOT_PROJECT_MEMBER',
-      status: HttpStatus.BAD_REQUEST,
-      code: 'ASSIGNEE_NOT_PROJECT_MEMBER'
-    },
-    PARENT_TASK_NOT_FOUND: {
-      message: 'PARENT_TASK_NOT_FOUND',
-      status: HttpStatus.NOT_FOUND,
-      code: 'PARENT_TASK_NOT_FOUND'
-    },
-    INVALID_TAGS: {
-      message: 'INVALID_TAGS',
-      status: HttpStatus.BAD_REQUEST,
-      code: 'INVALID_TAGS'
-    },
-    TASK_NOT_FOUND: {
-      message: 'TASK_NOT_FOUND',
-      status: HttpStatus.NOT_FOUND,
-      code: 'TASK_NOT_FOUND'
-    },
-    TASK_TITLE_ALREADY_EXISTS: {
-      message: 'TASK_TITLE_ALREADY_EXISTS',
-      status: HttpStatus.BAD_REQUEST,
-      code: 'TASK_TITLE_ALREADY_EXISTS'
-    },
-    CANNOT_UPDATE_TITLE: {
-      message: 'CANNOT_UPDATE_TITLE',
-      status: HttpStatus.BAD_REQUEST,
-      code: 'CANNOT_UPDATE_TITLE'
+      code: 'INVALID_EXPERIENCE_YEARS'
     }
   },
   role: {
@@ -353,45 +258,63 @@ export const ERROR_MESSAGES = {
       code: 'NOT_FOUND'
     }
   },
-  risk: {
-    INVALID_DUE_DATE: {
-      message: 'INVALID_DUE_DATE',
-      status: HttpStatus.BAD_REQUEST,
-      code: 'INVALID_DUE_DATE'
-    },
-    RISK_TITLE_ALREADY_EXISTS: {
-      message: 'RISK_TITLE_ALREADY_EXISTS',
-      status: HttpStatus.BAD_REQUEST,
-      code: 'RISK_TITLE_ALREADY_EXISTS'
-    },
-    RISK_NOT_FOUND: {
-      message: 'RISK_NOT_FOUND',
+
+  specialty: {
+    SPECIALTY_NOT_FOUND: {
+      message: 'SPECIALTY_NOT_FOUND',
       status: HttpStatus.NOT_FOUND,
-      code: 'RISK_NOT_FOUND'
+      code: 'SPECIALTY_NOT_FOUND'
+    },
+    SPECIALTY_NAME_ALREADY_EXISTS: {
+      message: 'SPECIALTY_NAME_ALREADY_EXISTS',
+      status: HttpStatus.BAD_REQUEST,
+      code: 'SPECIALTY_NAME_ALREADY_EXISTS'
+    },
+    INVALID_SPECIALTY_ID: {
+      message: 'INVALID_SPECIALTY_ID',
+      status: HttpStatus.BAD_REQUEST,
+      code: 'INVALID_SPECIALTY_ID'
+    },
+
+    // === Success Messages ===
+    SPECIALTY_CREATED_SUCCESSFULLY: {
+      message: 'SPECIALTY_CREATED_SUCCESSFULLY',
+      status: HttpStatus.CREATED,
+      code: 'SPECIALTY_CREATED_SUCCESSFULLY'
+    },
+    SPECIALTY_UPDATED_SUCCESSFULLY: {
+      message: 'SPECIALTY_UPDATED_SUCCESSFULLY',
+      status: HttpStatus.OK,
+      code: 'SPECIALTY_UPDATED_SUCCESSFULLY'
+    },
+    SPECIALTY_DELETED_SUCCESSFULLY: {
+      message: 'SPECIALTY_DELETED_SUCCESSFULLY',
+      status: HttpStatus.OK,
+      code: 'SPECIALTY_DELETED_SUCCESSFULLY'
+    },
+    SPECIALTIES_RETRIEVED_SUCCESSFULLY: {
+      message: 'SPECIALTIES_RETRIEVED_SUCCESSFULLY',
+      status: HttpStatus.OK,
+      code: 'SPECIALTIES_RETRIEVED_SUCCESSFULLY'
+    },
+    SPECIALTY_RETRIEVED_SUCCESSFULLY: {
+      message: 'SPECIALTY_RETRIEVED_SUCCESSFULLY',
+      status: HttpStatus.OK,
+      code: 'SPECIALTY_RETRIEVED_SUCCESSFULLY'
     }
   },
-  issue: {
-    ISSUE_TITLE_ALREADY_EXISTS: {
-      message: 'ISSUE_TITLE_ALREADY_EXISTS',
-      status: HttpStatus.BAD_REQUEST,
-      code: 'ISSUE_TITLE_ALREADY_EXISTS'
-    },
-    ISSUE_NOT_FOUND: {
-      message: 'ISSUE_NOT_FOUND',
+  review: {
+    REVIEW_NOT_FOUND: {
+      message: 'REVIEW_NOT_FOUND',
       status: HttpStatus.NOT_FOUND,
-      code: 'ISSUE_NOT_FOUND'
+      code: 'REVIEW_NOT_FOUND'
     }
   },
-  wiki: {
-    WIKI_TITLE_ALREADY_EXISTS: {
-      message: 'WIKI_TITLE_ALREADY_EXISTS',
-      status: HttpStatus.BAD_REQUEST,
-      code: 'WIKI_TITLE_ALREADY_EXISTS'
-    },
-    WIKI_NOT_FOUND: {
-      message: 'WIKI_NOT_FOUND',
+  notification: {
+    NOTIFICATION_NOT_FOUND: {
+      message: 'NOTIFICATION_NOT_FOUND',
       status: HttpStatus.NOT_FOUND,
-      code: 'WIKI_NOT_FOUND'
+      code: 'NOTIFICATION_NOT_FOUND'
     }
   }
 };
