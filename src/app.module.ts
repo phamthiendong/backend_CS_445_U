@@ -12,6 +12,13 @@ import { EventModule } from './common/modules/events/event.module';
 import { ActivityLogModule } from './modules/activityLogs/activityLog.module';
 import { DatabaseModule } from './common/databases/database.module';
 import { MailModule } from './common/mail/mail.module';
+import { SeederModule } from './common/databases/seeder.module';
+import { SpecialtyModule } from './modules/specialty/specialty.module';
+
+import { DoctorsModule } from './modules/doctors/doctors.module';
+import { CloudinaryModule } from './modules/common/cloudinary/cloudinary.module';
+import { ReviewModule } from './modules/reviews/review.module';
+import { NotificationModule } from './modules/notification/notification.module';
 
 @Module({
   imports: [
@@ -25,6 +32,7 @@ import { MailModule } from './common/mail/mail.module';
 
     // Database Module
     DatabaseModule,
+    SeederModule,
 
     // Mail Module
     MailModule,
@@ -35,7 +43,14 @@ import { MailModule } from './common/mail/mail.module';
     // Feature Modules
     UserModule,
     AuthModule,
-    ActivityLogModule
+    DoctorsModule,
+
+    ActivityLogModule,
+
+    SpecialtyModule,
+    CloudinaryModule,
+    ReviewModule,
+    NotificationModule
   ],
   controllers: [AppController],
   providers: [CustomLogger]

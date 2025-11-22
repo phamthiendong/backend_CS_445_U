@@ -193,7 +193,7 @@ export class AuthService extends BaseService<LoginHistory> {
     }
 
     // Handle active user - generate tokens
-    const tokens = await this.generateAuthTokens(user.id, user.email);
+    const tokens = await this.generateAuthTokens(user.id, user.email, user.role);
 
     const authUser = await this.userService.updateUserById(
       user.id,
@@ -235,7 +235,7 @@ export class AuthService extends BaseService<LoginHistory> {
     }
 
     // Generate new tokens
-    const tokens = await this.generateAuthTokens(payload.id, payload.email);
+    const tokens = await this.generateAuthTokens(payload.id, payload.email, user.role);
 
     // Store new refresh token
     this.userService.updateUserById(user.id, { refreshToken: tokens.refreshToken });
@@ -261,19 +261,19 @@ export class AuthService extends BaseService<LoginHistory> {
         email = await this.getEmailFromGoogleCode(socialLoginDto.code);
         break;
       }
-      case LoginMethod.FACEBOOK: {
-        email = await this.getEmailFromFacebookCode(socialLoginDto.code);
-        break;
-      }
-      case LoginMethod.GITHUB: {
-        email = await this.getEmailFromGithubCode(socialLoginDto.code);
-        break;
-      }
+      // case LoginMethod.FACEBOOK: {
+      //   email = await this.getEmailFromFacebookCode(socialLoginDto.code);
+      //   break;
+      // }
+      // case LoginMethod.GITHUB: {
+      //   email = await this.getEmailFromGithubCode(socialLoginDto.code);
+      //   break;
+      // }
     }
 
     const user = await this.getOrCreateActiveUser(email);
 
-    const tokens = await this.generateAuthTokens(user.id, email);
+    const tokens = await this.generateAuthTokens(user.id, email, user.role);
     const authUser = await this.userService.updateUserById(
       user.id,
       {
@@ -313,10 +313,11 @@ export class AuthService extends BaseService<LoginHistory> {
     }
   }
 
-  private async generateAuthTokens(id: number, email: string) {
+  private async generateAuthTokens(id: number, email: string, role: UserRole) {
     const accessTokenPayload: IJwtPayload = {
       id,
       email,
+      role,
       type: JwtType.ACCESS,
       iat: Math.floor(Date.now() / 1000)
     };
@@ -324,6 +325,7 @@ export class AuthService extends BaseService<LoginHistory> {
     const refreshTokenPayload: IJwtPayload = {
       id,
       email,
+      role,
       type: JwtType.REFRESH,
       iat: Math.floor(Date.now() / 1000)
     };
@@ -613,96 +615,96 @@ export class AuthService extends BaseService<LoginHistory> {
     }
   }
 
-  private async getEmailFromFacebookCode(code: string): Promise<string> {
-    try {
-      // Exchange authorization code for access token
-      const tokenUrl = this.configService.get<string>('FACEBOOK_TOKEN_URL');
+  // private async getEmailFromFacebookCode(code: string): Promise<string> {
+  //   try {
+  //     // Exchange authorization code for access token
+  //     const tokenUrl = this.configService.get<string>('FACEBOOK_TOKEN_URL');
 
-      const params = new URLSearchParams({
-        code,
-        client_id: this.configService.get<string>('FACEBOOK_CLIENT_ID'),
-        client_secret: this.configService.get<string>('FACEBOOK_CLIENT_SECRET'),
-        redirect_uri: this.configService.get<string>('FACEBOOK_CALLBACK_URI')
-      });
+  //     const params = new URLSearchParams({
+  //       code,
+  //       client_id: this.configService.get<string>('FACEBOOK_CLIENT_ID'),
+  //       client_secret: this.configService.get<string>('FACEBOOK_CLIENT_SECRET'),
+  //       redirect_uri: this.configService.get<string>('FACEBOOK_CALLBACK_URI')
+  //     });
 
-      const tokenData = await firstValueFrom(this.httpService.get(`${tokenUrl}?${params.toString()}`));
+  //     const tokenData = await firstValueFrom(this.httpService.get(`${tokenUrl}?${params.toString()}`));
 
-      const accessToken = tokenData.data.access_token;
+  //     const accessToken = tokenData.data.access_token;
 
-      // Get user information from user info url (graph API)
-      const userInfoUrl = this.configService.get<string>('FACEBOOK_USER_INFO_URL') + `&access_token=${accessToken}`;
+  //     // Get user information from user info url (graph API)
+  //     const userInfoUrl = this.configService.get<string>('FACEBOOK_USER_INFO_URL') + `&access_token=${accessToken}`;
 
-      const userInfo = await firstValueFrom(this.httpService.get(userInfoUrl));
+  //     const userInfo = await firstValueFrom(this.httpService.get(userInfoUrl));
 
-      const email = userInfo.data.email;
-      if (!email) {
-        throw new BadRequestException({ message: ERROR_MESSAGES.auth.EMAIL_NOT_FOUND });
-      }
+  //     const email = userInfo.data.email;
+  //     if (!email) {
+  //       throw new BadRequestException({ message: ERROR_MESSAGES.auth.EMAIL_NOT_FOUND });
+  //     }
 
-      return email;
-    } catch (error) {
-      if (error instanceof AxiosError && error.response) {
-        const facebookError = error.response.data.error;
+  //     return email;
+  //   } catch (error) {
+  //     if (error instanceof AxiosError && error.response) {
+  //       const facebookError = error.response.data.error;
 
-        if (facebookError && facebookError.code === 100) {
-          throw new UnauthorizedException({ message: ERROR_MESSAGES.auth.INVALID_OR_EXPIRED_AUTH_CODE });
-        }
-      }
+  //       if (facebookError && facebookError.code === 100) {
+  //         throw new UnauthorizedException({ message: ERROR_MESSAGES.auth.INVALID_OR_EXPIRED_AUTH_CODE });
+  //       }
+  //     }
 
-      throw error;
-    }
-  }
+  //     throw error;
+  //   }
+  // }
 
-  private async getEmailFromGithubCode(code: string): Promise<string> {
-    try {
-      // Exchange authorization code for access token
-      const tokenUrl = this.configService.get<string>('GITHUB_TOKEN_URL');
+  // private async getEmailFromGithubCode(code: string): Promise<string> {
+  //   try {
+  //     // Exchange authorization code for access token
+  //     const tokenUrl = this.configService.get<string>('GITHUB_TOKEN_URL');
 
-      const params = new URLSearchParams({
-        code,
-        client_id: this.configService.get<string>('GITHUB_CLIENT_ID'),
-        client_secret: this.configService.get<string>('GITHUB_CLIENT_SECRET')
-      });
+  //     const params = new URLSearchParams({
+  //       code,
+  //       client_id: this.configService.get<string>('GITHUB_CLIENT_ID'),
+  //       client_secret: this.configService.get<string>('GITHUB_CLIENT_SECRET')
+  //     });
 
-      const tokenData = await firstValueFrom(
-        this.httpService.post(tokenUrl, params.toString(), {
-          headers: { Accept: 'application/json' }
-        })
-      );
+  //     const tokenData = await firstValueFrom(
+  //       this.httpService.post(tokenUrl, params.toString(), {
+  //         headers: { Accept: 'application/json' }
+  //       })
+  //     );
 
-      const accessToken = tokenData.data.access_token;
+  //     const accessToken = tokenData.data.access_token;
 
-      // Get primary email from email url
-      const emailUrl = this.configService.get<string>('GITHUB_EMAIL_URL');
+  //     // Get primary email from email url
+  //     const emailUrl = this.configService.get<string>('GITHUB_EMAIL_URL');
 
-      const emails = await firstValueFrom(
-        this.httpService.get(emailUrl, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            Accept: 'application/vnd.github.v3+json'
-          }
-        })
-      );
+  //     const emails = await firstValueFrom(
+  //       this.httpService.get(emailUrl, {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //           Accept: 'application/vnd.github.v3+json'
+  //         }
+  //       })
+  //     );
 
-      const email = emails.data.find((email) => email.primary && email.verified)?.email;
+  //     const email = emails.data.find((email) => email.primary && email.verified)?.email;
 
-      if (!email) {
-        throw new BadRequestException({ message: ERROR_MESSAGES.auth.EMAIL_NOT_FOUND });
-      }
+  //     if (!email) {
+  //       throw new BadRequestException({ message: ERROR_MESSAGES.auth.EMAIL_NOT_FOUND });
+  //     }
 
-      return email;
-    } catch (error) {
-      if (error instanceof AxiosError && error.response) {
-        const githubError = error.response.data;
+  //     return email;
+  //   } catch (error) {
+  //     if (error instanceof AxiosError && error.response) {
+  //       const githubError = error.response.data;
 
-        if (githubError && githubError.error === 'bad_verification_code') {
-          throw new UnauthorizedException({ message: ERROR_MESSAGES.auth.INVALID_OR_EXPIRED_AUTH_CODE });
-        }
-      }
+  //       if (githubError && githubError.error === 'bad_verification_code') {
+  //         throw new UnauthorizedException({ message: ERROR_MESSAGES.auth.INVALID_OR_EXPIRED_AUTH_CODE });
+  //       }
+  //     }
 
-      throw error;
-    }
-  }
+  //     throw error;
+  //   }
+  // }
 
   private async getOrCreateActiveUser(email: string): Promise<User> {
     let user = await this.userService.findOne({

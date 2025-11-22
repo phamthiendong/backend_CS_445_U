@@ -40,12 +40,16 @@ export const TEMPLATE_MAIL = {
     subject: 'IS Project - Resend verification code'
   },
   SEND_RESET_PASSWORD: {
-    name: 'sendResetPassword',
+    name: 'sendResetPasswordCode',
     subject: 'IS Project - Reset your password'
   },
   INVITE_MEMBER_TO_PROJECT: {
     name: 'inviteMemberToProject',
     subject: 'IS Project - Project invitation'
+  },
+  WELCOME_DOCTOR: {
+    name: 'welcomeDoctor',
+    subject: 'Clinic Care - Welcome Doctor'
   }
 } as const;
 

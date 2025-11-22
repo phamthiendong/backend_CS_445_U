@@ -1,3 +1,4 @@
+import { UserRole } from 'src/modules/common/constants/role.constant';
 import { IUserData } from 'src/modules/users/interfaces/user.interface';
 
 export interface IUserRequest {
@@ -9,7 +10,6 @@ export interface IUserRequest {
 declare module 'express' {
   export interface Request {
     user?: IUserRequest;
-    projectId?: number;
   }
 }
 export {};
