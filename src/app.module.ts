@@ -22,6 +22,7 @@ import { NotificationModule } from './modules/notification/notification.module';
 import { BookingModule } from './modules/booking/booking.module';
 import { AppointmentScheduleModule } from './modules/schedule/schedule.module';
 import { SepayModule } from './modules/sepay/sepay.module';
+import { StatisticsModule } from './modules/statistics/statistics.module';
 
 @Module({
   imports: [
@@ -56,7 +57,9 @@ import { SepayModule } from './modules/sepay/sepay.module';
     NotificationModule,
     BookingModule,
     AppointmentScheduleModule,
-    SepayModule
+    SepayModule,
+    ScheduleModule,
+    StatisticsModule
   ],
   controllers: [AppController],
   providers: [CustomLogger]

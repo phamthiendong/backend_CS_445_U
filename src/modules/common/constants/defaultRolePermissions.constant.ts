@@ -84,7 +84,9 @@ export const DEFAULT_ROLE_PERMISSIONS = {
     // ==================== SCHEDULE ====================
     PERMISSIONS.SCHEDULE_VIEW,
 
-    PERMISSIONS.BOOKING_DELETE
+    PERMISSIONS.BOOKING_DELETE,
+
+    PERMISSIONS.ADMIN_VIEW
   ],
 
   // ==================== DOCTOR ====================
