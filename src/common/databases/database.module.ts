@@ -11,6 +11,9 @@ import { Specialty } from 'src/modules/specialty/entities/specialty.entity';
 import { Doctor } from 'src/modules/doctors/entities/doctor.entity';
 import { Review } from 'src/modules/reviews/entities/reviews.entities';
 import { Notification } from 'src/modules/notification/entities/notification.entity';
+import { AppointmentSchedule } from 'src/modules/schedule/entities/schedule.entity';
+import { Booking } from 'src/modules/booking/entities/booking.entity';
+import { Payment } from 'src/modules/sepay/entities/payment.entity';
 
 @Module({
   imports: [
@@ -23,7 +26,7 @@ import { Notification } from 'src/modules/notification/entities/notification.ent
         username: configService.get('DATABASE_USER') || 'root',
         password: configService.get('DATABASE_PASSWORD') || 'root',
         database: process.env.DATABASE_DATABASE || 'test',
-        entities: [User, LoginHistory, ActivityLog, Specialty, Doctor, Review, Notification],
+        entities: [User, LoginHistory, ActivityLog, Specialty, Doctor, Review, Notification, Specialty, Booking, AppointmentSchedule, Payment],
         logging: true,
         timezone: 'Z',
         synchronize: true

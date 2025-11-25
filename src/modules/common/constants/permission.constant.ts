@@ -24,7 +24,6 @@ export const PERMISSIONS = {
   DOCTOR_VIEW_ALL: 'doctor:view_all',
   DOCTOR_UPDATE: 'doctor:update',
   DOCTOR_UPDATE_PROFILE: 'doctor:update_profile',
-  DOCTOR_SCHEDULE_VIEW: 'doctor_schedule:view',
   DOCTOR_SCHEDULE_MANAGE: 'doctor_schedule:manage',
   DOCTOR_AVAILABILITY_MANAGE: 'doctor_availability:manage',
 
@@ -116,7 +115,15 @@ export const PERMISSIONS = {
 
   // ==================== AUDIT LOGS ====================
   AUDIT_LOG_VIEW: 'audit_log:view',
-  AUDIT_LOG_EXPORT: 'audit_log:export'
+  AUDIT_LOG_EXPORT: 'audit_log:export',
+
+  // ==================== SCHEDULE ====================
+  SCHEDULE_CREATE: 'schedule:create',
+  SCHEDULE_VIEW: 'schedule:view',
+  SCHEDULE_UPDATE: 'schedule:update',
+  SCHEDULE_DELETE: 'schedule:delete',
+
+  BOOKING_DELETE: 'booking:delete'
 } as const;
 
 export type Permission = (typeof PERMISSIONS)[keyof typeof PERMISSIONS];

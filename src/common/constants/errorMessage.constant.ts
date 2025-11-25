@@ -316,5 +316,77 @@ export const ERROR_MESSAGES = {
       status: HttpStatus.NOT_FOUND,
       code: 'NOTIFICATION_NOT_FOUND'
     }
+  },
+  schedule: {
+    NOT_FOUND: {
+      message: 'SCHEDULE_NOT_FOUND',
+      status: HttpStatus.NOT_FOUND,
+      code: 'SCHEDULE_NOT_FOUND'
+    },
+    INVALID_SCHEDULE: {
+      message: 'INVALID_SCHEDULE',
+      status: HttpStatus.BAD_REQUEST,
+      code: 'INVALID_SCHEDULE'
+    }
+  },
+  booking: {
+    // --- Errors ---
+    NOT_FOUND: {
+      message: 'BOOKING_NOT_FOUND',
+      status: HttpStatus.NOT_FOUND,
+      code: 'BOOKING_NOT_FOUND'
+    },
+    ALREADY_CONFIRMED: {
+      message: 'BOOKING_ALREADY_CONFIRMED',
+      status: HttpStatus.BAD_REQUEST,
+      code: 'BOOKING_ALREADY_CONFIRMED'
+    },
+    ALREADY_CANCELLED: {
+      message: 'BOOKING_ALREADY_CANCELLED',
+      status: HttpStatus.BAD_REQUEST,
+      code: 'BOOKING_ALREADY_CANCELLED'
+    },
+    INVALID_STATUS: {
+      message: 'INVALID_BOOKING_STATUS',
+      status: HttpStatus.BAD_REQUEST,
+      code: 'INVALID_BOOKING_STATUS'
+    },
+    PAYMENT_REQUIRED: {
+      message: 'ONLINE_BOOKING_REQUIRES_PAYMENT',
+      status: HttpStatus.PAYMENT_REQUIRED, // Hoặc BAD_REQUEST
+      code: 'ONLINE_BOOKING_REQUIRES_PAYMENT'
+    },
+    FORBIDDEN_ACCESS: {
+      message: 'FORBIDDEN_ACCESS_TO_BOOKING',
+      status: HttpStatus.FORBIDDEN,
+      code: 'FORBIDDEN_ACCESS_TO_BOOKING'
+    },
+
+    // --- Success ---
+    CREATE_SUCCESS: {
+      message: 'BOOKING_CREATED_SUCCESSFULLY',
+      status: HttpStatus.CREATED,
+      code: 'BOOKING_CREATED_SUCCESSFULLY'
+    },
+    CONFIRM_SUCCESS: {
+      message: 'BOOKING_CONFIRMED_SUCCESSFULLY',
+      status: HttpStatus.OK,
+      code: 'BOOKING_CONFIRMED_SUCCESSFULLY'
+    },
+    CANCEL_SUCCESS: {
+      message: 'BOOKING_CANCELLED_SUCCESSFULLY',
+      status: HttpStatus.OK,
+      code: 'BOOKING_CANCELLED_SUCCESSFULLY'
+    },
+    DELETE_SUCCESS: {
+      message: 'BOOKING_DELETED_SUCCESSFULLY',
+      status: HttpStatus.OK,
+      code: 'BOOKING_DELETED_SUCCESSFULLY'
+    },
+    GET_SUCCESS: {
+      message: 'BOOKING_RETRIEVED_SUCCESSFULLY',
+      status: HttpStatus.OK,
+      code: 'BOOKING_RETRIEVED_SUCCESSFULLY'
+    }
   }
 };

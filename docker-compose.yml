@@ -3,7 +3,7 @@ version: '3.8'
 services:
   cdo4__mysql:
     image: mysql:8.0
-    container_name: cots__mysql
+    container_name: CS445__mysql
     env_file: .env
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -26,3 +26,5 @@ volumes:
 networks:
   cdo4__network:
     driver: bridge
+#  docker exec -it CS445__mysql mysql -u root -p
+# ngrok http 4421

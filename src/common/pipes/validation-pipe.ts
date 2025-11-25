@@ -7,7 +7,17 @@ import { ERROR_MESSAGES } from '../constants/errorMessage.constant';
 @Injectable()
 export class CustomValidationPipe implements PipeTransform<any> {
   async transform(value, metadata: ArgumentMetadata) {
-    if (!value) {
+    // if (!value) {
+    //   throw new BadRequestException({ message: { message: 'No request payload provided', status: 400, code: 'VALIDATION_ERROR' } });
+    // }
+
+    // Chỉ validate khi type === 'body' (POST, PUT, PATCH)
+    if (metadata.type !== 'body') {
+      return value; // GET, DELETE sẽ đi qua đây → KHÔNG validate body
+    }
+
+    // Đây mới là validation cho body
+    if (!value || Object.keys(value).length === 0) {
       throw new BadRequestException({ message: { message: 'No request payload provided', status: 400, code: 'VALIDATION_ERROR' } });
     }
 
