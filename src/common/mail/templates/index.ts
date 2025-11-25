@@ -33,24 +33,48 @@ export const PasswordResetTemplate = () => {
 export const TEMPLATE_MAIL = {
   VERIFY_EMAIL: {
     name: 'verifyEmail',
-    subject: 'IS Project - Confirm your email address'
+    subject: 'Clinic Care - Confirm your email address'
   },
   RESEND_VERIFICATION_CODE: {
     name: 'resendVerificationCode',
-    subject: 'IS Project - Resend verification code'
+    subject: 'Clinic Care - Resend verification code'
   },
   SEND_RESET_PASSWORD: {
     name: 'sendResetPasswordCode',
-    subject: 'IS Project - Reset your password'
+    subject: 'Clinic Care - Reset your password'
   },
   INVITE_MEMBER_TO_PROJECT: {
     name: 'inviteMemberToProject',
-    subject: 'IS Project - Project invitation'
+    subject: 'Clinic Care - doctor invitation'
   },
   WELCOME_DOCTOR: {
     name: 'welcomeDoctor',
     subject: 'Clinic Care - Welcome Doctor'
+  },
+  BOOKING_REMINDER_PATIENT: {
+    name: 'bookingReminderPatient',
+    subject: 'Nhắc nhở: Lịch khám của bạn sắp diễn ra'
+  },
+  BOOKING_NOTIFICATION_DOCTOR: {
+    name: 'bookingNotificationDoctor',
+    subject: 'Thông báo: Có bệnh nhân sắp đến giờ khám'
+  },
+  // 2. Bác sĩ xác nhận lịch
+  BOOKING_OFFLINE: {
+    name: 'bookingOffline',
+    subject: 'Xác nhận lịch khám tại phòng khám - CLINIC CARE'
+  },
+
+  BOOKING_ONLINE: {
+    name: 'bookingOnline',
+    subject: 'Link tham gia khám bệnh Online - CLINIC CARE'
+  },
+
+  // 3. Hủy lịch -> File: bookingCancelled.hbs
+  BOOKING_CANCELLED: {
+    name: 'bookingCancelled',
+    subject: 'Thông báo hủy lịch khám - CLINIC CARE'
   }
 } as const;
 
-export const MAIL_FROM = 'no-reply@npis.com';
+export const MAIL_FROM = 'no-reply@cliniccare.com';

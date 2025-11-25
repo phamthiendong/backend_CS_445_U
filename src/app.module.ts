@@ -19,6 +19,9 @@ import { DoctorsModule } from './modules/doctors/doctors.module';
 import { CloudinaryModule } from './modules/common/cloudinary/cloudinary.module';
 import { ReviewModule } from './modules/reviews/review.module';
 import { NotificationModule } from './modules/notification/notification.module';
+import { BookingModule } from './modules/booking/booking.module';
+import { AppointmentScheduleModule } from './modules/schedule/schedule.module';
+import { SepayModule } from './modules/sepay/sepay.module';
 
 @Module({
   imports: [
@@ -50,7 +53,10 @@ import { NotificationModule } from './modules/notification/notification.module';
     SpecialtyModule,
     CloudinaryModule,
     ReviewModule,
-    NotificationModule
+    NotificationModule,
+    BookingModule,
+    AppointmentScheduleModule,
+    SepayModule
   ],
   controllers: [AppController],
   providers: [CustomLogger]
