@@ -22,6 +22,8 @@ import { NotificationModule } from './modules/notification/notification.module';
 import { BookingModule } from './modules/booking/booking.module';
 import { AppointmentScheduleModule } from './modules/schedule/schedule.module';
 import { SepayModule } from './modules/sepay/sepay.module';
+import { GeminiModule } from './modules/gemini/module/gemini.module';
+import { AdminModule } from './modules/gemini/module/admin.module';
 
 @Module({
   imports: [
@@ -56,7 +58,9 @@ import { SepayModule } from './modules/sepay/sepay.module';
     NotificationModule,
     BookingModule,
     AppointmentScheduleModule,
-    SepayModule
+    SepayModule,
+    GeminiModule,
+    AdminModule
   ],
   controllers: [AppController],
   providers: [CustomLogger]
