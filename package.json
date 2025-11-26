@@ -23,6 +23,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@nestjs-modules/mailer": "^1.11.2",
     "@nestjs/common": "^11.1.6",
     "@nestjs/config": "^4.0.1",

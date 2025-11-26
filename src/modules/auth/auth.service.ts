@@ -365,7 +365,7 @@ export class AuthService extends BaseService<LoginHistory> {
 
     const verificationToken = await this.jwtService.signAsync(verificationTokenPayload, {
       secret: this.configService.get<string>('ACCOUNT_VERIFICATION_TOKEN_SECRET'),
-      expiresIn: this.configService.get<string>('ACCOUNT_VERIFICATION_TOKEN_EXPIRATION') || '1h'
+      expiresIn: (this.configService.get<string>('ACCOUNT_VERIFICATION_TOKEN_EXPIRATION') as any) || ('1h' as any)
     });
 
     return verificationToken;
@@ -510,7 +510,7 @@ export class AuthService extends BaseService<LoginHistory> {
 
     const resetToken = await this.jwtService.signAsync(resetTokenPayload, {
       secret: this.configService.get<string>('RESET_PASSWORD_SECRET'),
-      expiresIn: this.configService.get<string>('RESET_PASSWORD_TOKEN_EXPIRATION') || '60s'
+      expiresIn: (this.configService.get<string>('RESET_PASSWORD_TOKEN_EXPIRATION') as any) || ('60s' as any)
     });
 
     return resetToken;
@@ -534,7 +534,7 @@ export class AuthService extends BaseService<LoginHistory> {
       },
       {
         secret: this.configService.get<string>('RESET_PASSWORD_SECRET'),
-        expiresIn: this.configService.get<string>('RESET_PASSWORD_TOKEN_EXPIRATION') || '10m'
+        expiresIn: (this.configService.get<string>('RESET_PASSWORD_TOKEN_EXPIRATION') as any) || ('10m' as any)
       }
     );
 
