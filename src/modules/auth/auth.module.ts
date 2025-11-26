@@ -22,7 +22,7 @@ import { AuthListener } from './listeners/auth.listener';
       useFactory: async (configService: ConfigService) => ({
         secret: configService.get<string>('ACCESS_TOKEN_SECRET'),
         signOptions: {
-          expiresIn: configService.get<string>('ACCESS_TOKEN_EXPIRATION') || '1h'
+          expiresIn: (configService.get<string>('ACCESS_TOKEN_EXPIRATION') as any) || ('1h' as any)
         }
       }),
       inject: [ConfigService]
