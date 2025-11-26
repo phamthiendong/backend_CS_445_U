@@ -22,8 +22,10 @@ import { NotificationModule } from './modules/notification/notification.module';
 import { BookingModule } from './modules/booking/booking.module';
 import { AppointmentScheduleModule } from './modules/schedule/schedule.module';
 import { SepayModule } from './modules/sepay/sepay.module';
+import { StatisticsModule } from './modules/statistics/statistics.module';
 import { GeminiModule } from './modules/gemini/module/gemini.module';
 import { AdminModule } from './modules/gemini/module/admin.module';
+
 
 @Module({
   imports: [
@@ -59,6 +61,8 @@ import { AdminModule } from './modules/gemini/module/admin.module';
     BookingModule,
     AppointmentScheduleModule,
     SepayModule,
+    ScheduleModule,
+    StatisticsModule
     GeminiModule,
     AdminModule
   ],

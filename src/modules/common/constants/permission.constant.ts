@@ -1,3 +1,5 @@
+import { Admin } from 'typeorm';
+
 /**
  * Permission constants for Healthcare System
  * Format: [RESOURCE]:[ACTION]
@@ -122,6 +124,8 @@ export const PERMISSIONS = {
   SCHEDULE_VIEW: 'schedule:view',
   SCHEDULE_UPDATE: 'schedule:update',
   SCHEDULE_DELETE: 'schedule:delete',
+
+  ADMIN_VIEW: 'admin:view',
 
   BOOKING_DELETE: 'booking:delete'
 } as const;
