@@ -12,6 +12,8 @@ import { PermissionGuard } from '../common/guards/permission.guard';
 import { JwtAuthGuard } from '../auth/guards/jwtAuth.guard';
 import { BaseController } from 'src/base/baseController';
 import { ERROR_MESSAGES } from 'src/common/constants/errorMessage.constant';
+import { CurrentUser } from '../auth/decorators/currentUser.decorator';
+import { IUserRequest } from 'src/types/express';
 
 @Controller('bookings')
 @ApiTags('Bookings')
@@ -26,10 +28,10 @@ export class BookingController extends BaseController {
   @RequirePermission(PERMISSIONS.USER_CREATE)
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Create a new booking' })
-  async create(@Req() req: any, @Res() res: Response, @Body() dto: CreateBookingDto) {
+  async create(@Req() req: Request, @CurrentUser() user: IUserRequest, @Res() res: Response, @Body() dto: CreateBookingDto) {
     try {
       // Lấy ID từ token của người đăng nhập
-      const userId = req.user.id;
+      const userId = user.id;
       const response = await this.bookingService.createBooking({ ...dto, userId });
       return this.responseCreated(res, response);
     } catch (error) {
@@ -96,9 +98,9 @@ export class BookingController extends BaseController {
   @RequirePermission(PERMISSIONS.DOCTOR_UPDATE)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Doctor confirm booking' })
-  async confirm(@Req() req: any, @Res() res: Response, @Param('id') id: number) {
+  async confirm(@Req() req: Request, @CurrentUser() user: IUserRequest, @Res() res: Response, @Param('id') id: number) {
     try {
-      const doctorUserId = req.user.id; // Lấy ID người đang thao tác
+      const doctorUserId = user.id;
       const response = await this.bookingService.confirmBooking(Number(id), doctorUserId);
       return this.responseSuccess(res, response);
     } catch (error) {
@@ -113,9 +115,9 @@ export class BookingController extends BaseController {
   @RequirePermission(PERMISSIONS.DOCTOR_UPDATE) // Hoặc USER_UPDATE tùy logic
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Cancel booking' })
-  async cancel(@Req() req: any, @Res() res: Response, @Param('id') id: number, @Body() dto: CancelBookingDto) {
+  async cancel(@Req() req: Request, @CurrentUser() user: IUserRequest, @Res() res: Response, @Param('id') id: number, @Body() dto: CancelBookingDto) {
     try {
-      const userId = req.user.id;
+      const userId = user.id;
       const response = await this.bookingService.cancelBooking(Number(id), userId, dto.reason);
       return this.responseSuccess(res, response);
     } catch (error) {

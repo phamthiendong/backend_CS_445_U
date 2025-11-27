@@ -11,6 +11,8 @@ import { PERMISSIONS } from '../common/constants/permission.constant';
 import { NotificationService } from './notification.service';
 import { CreateNotificationDto } from './dto/createNotification.dto';
 import { SendToAllDoctorsDto } from './dto/sendToAllDoctors.dto';
+import { IUserRequest } from 'src/types/express';
+import { CurrentUser } from '../auth/decorators/currentUser.decorator';
 
 @ApiTags('Notifications')
 @Controller('notifications')
@@ -58,9 +60,9 @@ export class NotificationController extends BaseController {
   @RequirePermission(PERMISSIONS.NOTIFICATION_VIEW)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Bác sĩ xem thông báo của mình' })
-  async getMy(@Req() req: Request, @Res() res: Response) {
+  async getMy(@Req() req: Request, @CurrentUser() user: IUserRequest, @Res() res: Response) {
     try {
-      const userId = req['user'].id;
+      const userId = user.id;
       const response = await this.notificationService.getMyNotifications(userId);
       return this.responseSuccess(res, response);
     } catch (error) {

@@ -6,17 +6,34 @@ import { AppointmentSchedule } from './entities/schedule.entity';
 import { CreateScheduleDto } from './dto/createSchedule.dto';
 import { UpdateScheduleDto } from './dto/updateSchedule.dto';
 import { ERROR_MESSAGES } from 'src/common/constants/errorMessage.constant';
+import { Doctor } from '../doctors/entities/doctor.entity';
+import { ForbiddenException } from 'src/common/exceptions/forbidden.exception';
 
 @Injectable()
 export class AppointmentScheduleService {
   constructor(
     @InjectRepository(AppointmentSchedule)
-    private readonly repo: Repository<AppointmentSchedule>
+    private readonly repo: Repository<AppointmentSchedule>,
+    @InjectRepository(Doctor)
+    private readonly doctorRepo: Repository<Doctor>
   ) {}
 
   // ========================= CREATE =========================
-  async create(dto: CreateScheduleDto) {
-    const schedule = this.repo.create(dto);
+  async create(userId: number, dto: CreateScheduleDto) {
+    const doctor = await this.doctorRepo.findOne({ where: { userId: userId } });
+
+    if (!doctor) {
+      throw new NotFoundException({
+        message: ERROR_MESSAGES.doctor.DOCTOR_NOT_FOUND
+      });
+    }
+
+    // 2. Tạo lịch + GÁN BÁC SĨ VÀO
+    const schedule = this.repo.create({
+      ...dto,
+      doctor: doctor
+    });
+
     const saved = await this.repo.save(schedule);
 
     return {
@@ -68,12 +85,15 @@ export class AppointmentScheduleService {
   }
 
   // ========================= DELETE =========================
-  async delete(id: number) {
-    const schedule = await this.repo.findOne({ where: { id } });
+  // Thêm tham số userId vào hàm update/delete để check quyền
+  async delete(id: number, userId: number) {
+    const schedule = await this.repo.findOne({
+      where: { id },
+      relations: ['doctor'] // Load thông tin bác sĩ để check
+    });
+
     if (!schedule) {
-      throw new NotFoundException({
-        message: ERROR_MESSAGES.specialty.SPECIALTY_NOT_FOUND
-      });
+      throw new NotFoundException(ERROR_MESSAGES.schedule.NOT_FOUND);
     }
 
     await this.repo.delete(id);

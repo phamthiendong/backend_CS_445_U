@@ -1,7 +1,8 @@
-import { IsEnum, IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { IsEnum, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateScheduleDto {
   @IsInt()
+  @IsOptional()
   doctorId: number;
 
   @IsString()

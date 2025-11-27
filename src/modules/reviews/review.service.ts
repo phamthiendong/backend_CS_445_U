@@ -7,6 +7,8 @@ import { Review } from './entities/reviews.entities';
 import { ERROR_MESSAGES } from 'src/common/constants/errorMessage.constant';
 import { User } from '../users/entities/user.entity';
 import { Doctor } from '../doctors/entities/doctor.entity';
+import { Booking } from '../booking/entities/booking.entity';
+import { BookingStatus } from '../booking/enums/bookingStatus.enum';
 
 @Injectable()
 export class ReviewService {
@@ -23,37 +25,20 @@ export class ReviewService {
 
   // ========================= CREATE =========================
   async create(userId: number, dto: CreateReviewDto) {
-    // 1. Kiểm tra user tồn tại
-    const user = await this.userRepo.findOne({ where: { id: userId } });
-    if (!user)
-      throw new NotFoundException({
-        message: ERROR_MESSAGES.user.USER_NOT_FOUND
-      });
+    const doctor = await this.doctorRepo.findOne({ where: { id: dto.doctorId } });
+    if (!doctor) throw new NotFoundException(ERROR_MESSAGES.doctor.DOCTOR_NOT_FOUND);
 
-    // 2. Kiểm tra doctor tồn tại
-    const doctor = await this.doctorRepo.findOne({
-      where: { id: dto.doctorId }
-    });
-
-    if (!doctor) {
-      throw new NotFoundException({
-        message: ERROR_MESSAGES.doctor.DOCTOR_NOT_FOUND
-      });
-    }
-
-    // 3. Tạo review
     const review = this.reviewRepo.create({
       rating: dto.rating,
-      comment: dto.comment ?? null,
+      comment: dto.comment,
       doctorId: dto.doctorId,
-      userId
+      userId: userId
     });
 
-    const saved = await this.reviewRepo.save(review);
-
+    const savedReview = await this.reviewRepo.save(review);
     return {
-      message: ERROR_MESSAGES.common.CREATED,
-      data: saved
+      message: ERROR_MESSAGES.common.SUCCESSFUL,
+      data: savedReview
     };
   }
 
@@ -102,7 +87,7 @@ export class ReviewService {
   }
 
   // ========================= DELETE =========================
-  async delete(id: number) {
+  async delete(id: number, userId: number) {
     const review = await this.reviewRepo.findOne({ where: { id } });
 
     if (!review) {
