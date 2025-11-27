@@ -35,5 +35,6 @@ export interface IUserData {
   firstName: string;
   lastName: string;
   status: UserStatus;
+  role: UserRole;
   createdAt: Date;
 }

@@ -11,6 +11,8 @@ import { PERMISSIONS } from '../common/constants/permission.constant';
 import { PermissionGuard } from '../common/guards/permission.guard';
 import { JwtAuthGuard } from '../auth/guards/jwtAuth.guard';
 import { BaseController } from 'src/base/baseController';
+import { IUserRequest } from 'src/types/express';
+import { CurrentUser } from '../auth/decorators/currentUser.decorator';
 
 @Controller('doctors')
 @ApiTags('Doctors')
@@ -57,7 +59,7 @@ export class DoctorsController extends BaseController {
   @RequirePermission(PERMISSIONS.DOCTOR_CREATE)
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Create a new doctor' })
-  async create(@Res() res: Response, @Body() dto: CreateDoctorDto) {
+  async create(@CurrentUser() user: IUserRequest, @Res() res: Response, @Body() dto: CreateDoctorDto) {
     try {
       const response = await this.doctorsService.createDoctor(dto);
       return this.responseCreated(res, response);

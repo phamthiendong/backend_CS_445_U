@@ -6,9 +6,10 @@ import { Doctor } from './entities/doctor.entity';
 import { User } from '../users/entities/user.entity';
 import { MailModule } from 'src/common/mail/mail.module';
 import { CloudinaryModule } from '../common/cloudinary/cloudinary.module';
+import { Specialty } from '../specialty/entities/specialty.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Doctor, User]), MailModule, CloudinaryModule],
+  imports: [TypeOrmModule.forFeature([Doctor, User, Specialty]), MailModule, CloudinaryModule],
   controllers: [DoctorsController],
   providers: [DoctorsService],
   exports: [DoctorsService]

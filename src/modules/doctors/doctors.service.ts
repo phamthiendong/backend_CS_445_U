@@ -11,12 +11,14 @@ import * as bcrypt from 'bcryptjs';
 import { UserRole, UserStatus } from '../users/interfaces/user.interface';
 import { MailService } from 'src/common/mail/mail.service';
 import { ERROR_MESSAGES } from 'src/common/constants/errorMessage.constant';
+import { Specialty } from '../specialty/entities/specialty.entity';
 
 @Injectable()
 export class DoctorsService {
   constructor(
     @InjectRepository(Doctor) private readonly doctorRepo: Repository<Doctor>,
     @InjectRepository(User) private readonly userRepo: Repository<User>,
+    @InjectRepository(Specialty) private readonly specialtyRepo: Repository<Specialty>,
     private readonly mailService: MailService
   ) {}
 
@@ -59,6 +61,11 @@ export class DoctorsService {
       throw new NotFoundException({
         message: ERROR_MESSAGES.auth.EMAIL_ALREADY_EXISTS
       });
+
+    const specialty = await this.specialtyRepo.findOne({ where: { id: dto.specialtyId } });
+    if (!specialty) {
+      throw new NotFoundException(ERROR_MESSAGES.specialty.SPECIALTY_NOT_FOUND);
+    }
 
     const tempPassword = this.generateSecurePassword();
     const hashed = await bcrypt.hash(tempPassword, 10);

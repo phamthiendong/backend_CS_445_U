@@ -11,6 +11,7 @@ import { JwtAuthGuard } from '../auth/guards/jwtAuth.guard';
 import { PermissionGuard } from '../common/guards/permission.guard';
 import { CurrentUser } from '../auth/decorators/currentUser.decorator';
 import { BaseController } from 'src/base/baseController';
+import { IUserRequest } from 'src/types/express';
 
 @ApiTags('Reviews')
 @Controller('reviews')
@@ -25,7 +26,7 @@ export class ReviewController extends BaseController {
   @RequirePermission(PERMISSIONS.REVIEW_CREATE)
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Create a new review' })
-  async create(@Req() req: Request, @Res() res: Response, @CurrentUser() user, @Body() dto: CreateReviewDto) {
+  async create(@Req() req: Request, @Res() res: Response, @CurrentUser() user: IUserRequest, @Body() dto: CreateReviewDto) {
     try {
       const response = await this.reviewService.create(user.id, dto);
       return this.responseCreated(res, response);
@@ -54,12 +55,12 @@ export class ReviewController extends BaseController {
 
   // ========================= DELETE =========================
   @Delete(':id')
-  @RequirePermission(PERMISSIONS.REVIEW_DELETE)
+  // @RequirePermission(PERMISSIONS.REVIEW_DELETE)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Delete a review by ID' })
-  async delete(@Req() req: Request, @Res() res: Response, @Param('id') id: number) {
+  async delete(@Req() req: Request, @CurrentUser() user: IUserRequest, @Res() res: Response, @Param('id') id: number) {
     try {
-      const response = await this.reviewService.delete(Number(id));
+      const response = await this.reviewService.delete(Number(id), user.id);
       return this.responseSuccess(res, response);
     } catch (error) {
       return this.responseError(res, error, {

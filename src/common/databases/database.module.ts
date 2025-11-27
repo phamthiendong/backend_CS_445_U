@@ -17,6 +17,7 @@ import { Payment } from 'src/modules/sepay/entities/payment.entity';
 import { ApprovedContent } from 'src/modules/gemini/entities/approved_content.entity';
 import { PendingContent } from 'src/modules/gemini/entities/pending-content.entity';
 import { RejectedContent } from 'src/modules/gemini/entities/rejected-content.entity';
+import { MedicalRecord } from 'src/modules/medical/entities/medical-record.entity';
 
 @Module({
   imports: [
@@ -29,7 +30,23 @@ import { RejectedContent } from 'src/modules/gemini/entities/rejected-content.en
         username: configService.get('DATABASE_USER') || 'root',
         password: configService.get('DATABASE_PASSWORD') || 'root',
         database: process.env.DATABASE_DATABASE || 'test',
-        entities: [User, LoginHistory, ActivityLog, Specialty, Doctor, Review, Notification, Specialty, Booking, AppointmentSchedule, Payment, ApprovedContent, PendingContent, RejectedContent],
+        entities: [
+          User,
+          LoginHistory,
+          ActivityLog,
+          Specialty,
+          Doctor,
+          Review,
+          Notification,
+          Specialty,
+          Booking,
+          AppointmentSchedule,
+          Payment,
+          ApprovedContent,
+          PendingContent,
+          RejectedContent,
+          MedicalRecord
+        ],
         logging: true,
         timezone: 'Z',
         synchronize: true

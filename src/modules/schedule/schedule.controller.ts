@@ -9,6 +9,8 @@ import { JwtAuthGuard } from '../auth/guards/jwtAuth.guard';
 import { PermissionGuard } from '../common/guards/permission.guard';
 import { RequirePermission } from '../common/decorators/requirePermission.decorator';
 import { PERMISSIONS } from '../common/constants/permission.constant';
+import { IUserRequest } from 'src/types/express';
+import { CurrentUser } from '../auth/decorators/currentUser.decorator';
 
 @Controller('schedules')
 @ApiTags('Schedules')
@@ -22,9 +24,9 @@ export class AppointmentScheduleController extends BaseController {
   @Post()
   @RequirePermission(PERMISSIONS.SCHEDULE_CREATE)
   @ApiOperation({ summary: 'Tạo khung giờ khám' })
-  async create(@Req() req: Request, @Res() res: Response, @Body() dto: CreateScheduleDto) {
+  async create(@Req() req: Request, @CurrentUser() user: IUserRequest, @Res() res: Response, @Body() dto: CreateScheduleDto) {
     try {
-      const response = await this.service.create(dto);
+      const response = await this.service.create(user.id, dto);
       return this.responseCreated(res, response);
     } catch (error) {
       return this.responseError(res, error, {
@@ -67,9 +69,9 @@ export class AppointmentScheduleController extends BaseController {
   @Delete(':id')
   @RequirePermission(PERMISSIONS.SCHEDULE_DELETE)
   @ApiOperation({ summary: 'Xóa khung giờ khám' })
-  async delete(@Req() req: Request, @Res() res: Response, @Param('id') id: number) {
+  async delete(@Req() req: Request, @CurrentUser() user: IUserRequest, @Res() res: Response, @Param('id') id: number) {
     try {
-      const response = await this.service.delete(id);
+      const response = await this.service.delete(id, user.id);
       return this.responseSuccess(res, response);
     } catch (error) {
       return this.responseError(res, error, {

@@ -20,7 +20,7 @@ export class StatisticsController extends BaseController {
 
   // 1. API cho Admin
   @Get('admin/dashboard')
-  //   @RequirePermission(PERMISSIONS.ADMIN_VIEW)
+  @RequirePermission(PERMISSIONS.ADMIN_VIEW)
   @ApiOperation({ summary: 'Get Admin Dashboard Stats' })
   async getAdminStats(@Res() res: Response) {
     try {
@@ -53,7 +53,7 @@ export class StatisticsController extends BaseController {
 
   // 3. API Biểu đồ
   @Get('admin/chart')
-  //   @RequirePermission(PERMISSIONS.ADMIN_VIEW)
+  @RequirePermission(PERMISSIONS.ADMIN_VIEW)
   async getChart(@Res() res: Response) {
     try {
       const data = await this.statisticsService.getRevenueChart();

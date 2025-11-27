@@ -125,6 +125,8 @@ export const PERMISSIONS = {
   SCHEDULE_UPDATE: 'schedule:update',
   SCHEDULE_DELETE: 'schedule:delete',
 
+  DOCTOR_MEDICAL_RECORDS: 'doctor:medical_records',
+  DOCTOR_UPDATE_MEDICAL_RECORDS: 'doctor:update',
   ADMIN_VIEW: 'admin:view',
 
   BOOKING_DELETE: 'booking:delete'

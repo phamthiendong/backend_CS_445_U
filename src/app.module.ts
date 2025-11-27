@@ -25,7 +25,7 @@ import { SepayModule } from './modules/sepay/sepay.module';
 import { StatisticsModule } from './modules/statistics/statistics.module';
 import { GeminiModule } from './modules/gemini/module/gemini.module';
 import { AdminModule } from './modules/gemini/module/admin.module';
-
+import { MedicalRecordModule } from './modules/medical/medical-record.module';
 
 @Module({
   imports: [
@@ -62,9 +62,10 @@ import { AdminModule } from './modules/gemini/module/admin.module';
     AppointmentScheduleModule,
     SepayModule,
     ScheduleModule,
-    StatisticsModule
+    StatisticsModule,
     GeminiModule,
-    AdminModule
+    AdminModule,
+    MedicalRecordModule
   ],
   controllers: [AppController],
   providers: [CustomLogger]

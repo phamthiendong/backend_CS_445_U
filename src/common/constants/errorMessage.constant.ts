@@ -327,6 +327,11 @@ export const ERROR_MESSAGES = {
       message: 'INVALID_SCHEDULE',
       status: HttpStatus.BAD_REQUEST,
       code: 'INVALID_SCHEDULE'
+    },
+    FORBIDDEN_DELETE: {
+      message: 'FORBIDDEN_DELETE',
+      status: HttpStatus.FORBIDDEN,
+      code: 'FORBIDDEN_DELETE'
     }
   },
   booking: {
@@ -387,6 +392,23 @@ export const ERROR_MESSAGES = {
       message: 'BOOKING_RETRIEVED_SUCCESSFULLY',
       status: HttpStatus.OK,
       code: 'BOOKING_RETRIEVED_SUCCESSFULLY'
+    }
+  },
+  medicalRecord: {
+    CREATE_SUCCESS: {
+      message: 'MEDICAL_RECORD_CREATED_SUCCESSFULLY',
+      status: HttpStatus.CREATED,
+      code: 'MEDICAL_RECORD_CREATED_SUCCESSFULLY'
+    },
+    NOT_FOUND: {
+      message: 'MEDICAL_RECORD_NOT_FOUND',
+      status: HttpStatus.NOT_FOUND,
+      code: 'MEDICAL_RECORD_NOT_FOUND'
+    },
+    INVALID_BOOKING_STATUS: {
+      message: 'Lịch hẹn chưa được xác nhận hoặc đã hoàn thành',
+      status: HttpStatus.BAD_REQUEST,
+      code: 'INVALID_BOOKING_STATUS'
     }
   }
 };
