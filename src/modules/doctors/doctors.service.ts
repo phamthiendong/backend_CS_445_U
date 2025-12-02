@@ -25,7 +25,34 @@ export class DoctorsService {
   // ========================= GET ALL =========================
   async getAllDoctors() {
     const doctors = await this.doctorRepo.find({
-      relations: ['user', 'specialty']
+      relations: ['user', 'specialty'],
+      select: {
+        id: true,
+        avatar: true,
+        experienceYears: true,
+        consultationFee: true,
+        bio: true,
+        education: true,
+        certificates: true,
+        createdAt: true,
+        updatedAt: true,
+        user: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          email: true,
+          status: true,
+          role: true,
+          isActive: true,
+          createdAt: true,
+          updatedAt: true
+        },
+        specialty: {
+          id: true,
+          name: true,
+          description: true
+        }
+      }
     });
 
     return {
@@ -38,7 +65,34 @@ export class DoctorsService {
   async getDoctorById(id: number) {
     const doctor = await this.doctorRepo.findOne({
       where: { id },
-      relations: ['user', 'specialty']
+      relations: ['user', 'specialty'],
+      select: {
+        id: true,
+        avatar: true,
+        experienceYears: true,
+        consultationFee: true,
+        bio: true,
+        education: true,
+        certificates: true,
+        createdAt: true,
+        updatedAt: true,
+        user: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          email: true,
+          status: true,
+          role: true,
+          isActive: true,
+          createdAt: true,
+          updatedAt: true
+        },
+        specialty: {
+          id: true,
+          name: true,
+          description: true
+        }
+      }
     });
 
     if (!doctor) {

@@ -5,7 +5,6 @@ import { PendingContent } from '../entities/pending-content.entity';
 import { ApprovedContent } from '../entities/approved_content.entity';
 import { RejectedContent } from '../entities/rejected-content.entity';
 
-
 @Injectable()
 export class AdminContentService {
   constructor(
@@ -44,9 +43,9 @@ export class AdminContentService {
       // Nếu Admin có sửa câu trả lời thì lấy cái sửa, không thì lấy cái gốc
       approvedItem.response_template = modifiedResponse || pendingItem.ai_response;
 
-      approvedItem.approved_by = "admin";
-        // Lưu vào bảng Approved
-        await queryRunner.manager.save(ApprovedContent, approvedItem);
+      approvedItem.approved_by = 'admin';
+      // Lưu vào bảng Approved
+      await queryRunner.manager.save(ApprovedContent, approvedItem);
 
       // Xóa khỏi bảng Pending
       await queryRunner.manager.delete(PendingContent, id);

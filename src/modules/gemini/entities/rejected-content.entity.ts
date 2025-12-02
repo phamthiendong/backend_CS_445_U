@@ -15,7 +15,7 @@ export class RejectedContent {
   detected_keyword: string;
 
   @Column({ type: 'text', nullable: true })
-  rejection_reason: string; 
+  rejection_reason: string;
 
   @CreateDateColumn()
   rejected_at: Date;
