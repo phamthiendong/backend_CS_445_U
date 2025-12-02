@@ -6,7 +6,6 @@ import { RejectedContent } from '../entities/rejected-content.entity';
 import { AdminContentController } from '../controller/admin-content.controller';
 import { AdminContentService } from '../service/admin-content.service';
 
-
 @Module({
   imports: [TypeOrmModule.forFeature([PendingContent, ApprovedContent, RejectedContent])],
   controllers: [AdminContentController],

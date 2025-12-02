@@ -20,7 +20,10 @@ export class AppointmentScheduleService {
 
   // ========================= CREATE =========================
   async create(userId: number, dto: CreateScheduleDto) {
-    const doctor = await this.doctorRepo.findOne({ where: { userId: userId } });
+    // 1. Tìm bác sĩ theo userId
+    const doctor = await this.doctorRepo.findOne({
+      where: { userId: userId }
+    });
 
     if (!doctor) {
       throw new NotFoundException({
@@ -28,7 +31,23 @@ export class AppointmentScheduleService {
       });
     }
 
-    // 2. Tạo lịch + GÁN BÁC SĨ VÀO
+    // 2. KIỂM TRA TRÙNG KHUNG GIỜ (CÙNG NGÀY + GIỜ + LOẠI KHÁM)
+    const existedSlot = await this.repo.findOne({
+      where: {
+        doctor: { id: doctor.id },
+        date: dto.date,
+        startTime: dto.startTime,
+        appointmentType: dto.appointmentType
+      }
+    });
+
+    if (existedSlot) {
+      throw new BadRequestException({
+        message: 'Khung giờ này đã tồn tại, vui lòng chọn khung giờ khác!'
+      });
+    }
+
+    // 3. Tạo lịch mới
     const schedule = this.repo.create({
       ...dto,
       doctor: doctor

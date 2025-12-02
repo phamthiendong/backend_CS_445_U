@@ -12,6 +12,7 @@ import { PermissionGuard } from '../common/guards/permission.guard';
 import { CurrentUser } from '../auth/decorators/currentUser.decorator';
 import { BaseController } from 'src/base/baseController';
 import { IUserRequest } from 'src/types/express';
+import { Public } from '../auth/decorators/public.decorator';
 
 @ApiTags('Reviews')
 @Controller('reviews')
@@ -39,7 +40,8 @@ export class ReviewController extends BaseController {
 
   // ========================= GET REVIEWS BY DOCTOR =========================
   @Get('doctor/:doctorId')
-  @RequirePermission(PERMISSIONS.REVIEW_VIEW)
+  @Public()
+  // @RequirePermission(PERMISSIONS.REVIEW_VIEW)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Get all reviews of a doctor' })
   async getByDoctor(@Req() req: Request, @Res() res: Response, @Param('doctorId') doctorId: number) {

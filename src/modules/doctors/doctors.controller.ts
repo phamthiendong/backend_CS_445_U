@@ -13,6 +13,7 @@ import { JwtAuthGuard } from '../auth/guards/jwtAuth.guard';
 import { BaseController } from 'src/base/baseController';
 import { IUserRequest } from 'src/types/express';
 import { CurrentUser } from '../auth/decorators/currentUser.decorator';
+import { Public } from '../auth/decorators/public.decorator';
 
 @Controller('doctors')
 @ApiTags('Doctors')
@@ -24,7 +25,8 @@ export class DoctorsController extends BaseController {
 
   // ========================= GET ALL =========================
   @Get()
-  @RequirePermission(PERMISSIONS.DOCTOR_VIEW_ALL)
+  @Public()
+  // @RequirePermission(PERMISSIONS.DOCTOR_VIEW_ALL)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Get all doctors' })
   async getAll(@Req() req: Request, @Res() res: Response) {
@@ -40,7 +42,8 @@ export class DoctorsController extends BaseController {
 
   // ========================= GET DETAIL =========================
   @Get(':id')
-  @RequirePermission(PERMISSIONS.DOCTOR_VIEW)
+  @Public()
+  // @RequirePermission(PERMISSIONS.DOCTOR_VIEW)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Get doctor by ID' })
   async getById(@Res() res: Response, @Param('id') id: number) {
