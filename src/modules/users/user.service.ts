@@ -23,7 +23,7 @@ export class UserService extends BaseService<User> {
   }
 
   async createAndGetAuthUser(createUserDto: CreateUserDto): Promise<IResponseData> {
-    const user = await this.createUser(createUserDto, ['id', 'email', 'firstName', 'lastName', 'status', 'createdAt']);
+    const user = await this.createUser(createUserDto, ['id', 'email', 'firstName', 'lastName', 'role', 'status', 'createdAt']);
     return {
       message: ERROR_MESSAGES.user.USER_CREATED_SUCCESSFULLY,
       data: user
@@ -47,7 +47,7 @@ export class UserService extends BaseService<User> {
 
     const [users, total] = await this.findAndCount({
       where: whereConditions,
-      select: ['id', 'email', 'firstName', 'lastName', 'status', 'createdAt'],
+      select: ['id', 'email', 'firstName', 'lastName', 'role', 'status', 'createdAt'],
       skip,
       take: limit,
       order: { [sortBy]: sortOrder }
@@ -69,7 +69,7 @@ export class UserService extends BaseService<User> {
 
   async getAuthUser(id: number): Promise<IResponseData> {
     const user = await this.findOneById(id, {
-      select: ['id', 'email', 'firstName', 'lastName', 'status', 'createdAt']
+      select: ['id', 'email', 'firstName', 'lastName', 'role', 'status', 'createdAt']
     });
 
     if (!user) {
@@ -84,7 +84,7 @@ export class UserService extends BaseService<User> {
 
   async updateAndGetAuthUser(id: number, updateUserDto: UpdateUserDto): Promise<IResponseData> {
     const updatedUser = await this.updateAndFindOneById(id, updateUserDto, {
-      select: ['id', 'email', 'firstName', 'lastName', 'status', 'createdAt']
+      select: ['id', 'email', 'firstName', 'lastName', 'role', 'status', 'createdAt']
     });
 
     return {
