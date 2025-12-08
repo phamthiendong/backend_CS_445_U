@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -110,9 +110,12 @@ export class DoctorsService {
   // ========================= CREATE =========================
   async createDoctor(dto: CreateDoctorDto) {
     // Check email exist
-    const existing = await this.userRepo.findOne({ where: { email: dto.email } });
+    const existing = await this.userRepo.findOne({
+      where: { email: dto.email },
+      withDeleted: true //  Lấy luôn user đã bị soft-delete
+    });
     if (existing)
-      throw new NotFoundException({
+      throw new ConflictException({
         message: ERROR_MESSAGES.auth.EMAIL_ALREADY_EXISTS
       });
 
