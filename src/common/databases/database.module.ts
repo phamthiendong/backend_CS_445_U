@@ -4,7 +4,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { User } from 'src/modules/users/entities/user.entity';
 import { LoginHistory } from 'src/modules/auth/entities/loginHistory.entity';
-import { ActivityLog } from 'src/modules/activityLogs/entities/activityLog.entity';
 import { addTransactionalDataSource } from 'typeorm-transactional';
 import { UserModule } from 'src/modules/users/user.module';
 import { Specialty } from 'src/modules/specialty/entities/specialty.entity';
@@ -33,7 +32,6 @@ import { MedicalRecord } from 'src/modules/medical/entities/medical-record.entit
         entities: [
           User,
           LoginHistory,
-          ActivityLog,
           Specialty,
           Doctor,
           Review,

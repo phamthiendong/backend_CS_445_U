@@ -9,7 +9,6 @@ import { UserModule } from './modules/users/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 
 import { EventModule } from './common/modules/events/event.module';
-import { ActivityLogModule } from './modules/activityLogs/activityLog.module';
 import { DatabaseModule } from './common/databases/database.module';
 import { MailModule } from './common/mail/mail.module';
 import { SeederModule } from './common/databases/seeder.module';
@@ -51,8 +50,6 @@ import { MedicalRecordModule } from './modules/medical/medical-record.module';
     UserModule,
     AuthModule,
     DoctorsModule,
-
-    ActivityLogModule,
 
     SpecialtyModule,
     CloudinaryModule,
