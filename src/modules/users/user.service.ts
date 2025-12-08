@@ -119,11 +119,11 @@ export class UserService extends BaseService<User> {
       throw new NotFoundException({ message: ERROR_MESSAGES.user.USER_NOT_FOUND });
     }
 
-    // Tìm doctor theo userId
+    // Nếu user là bác sĩ → xoá toàn bộ dữ liệu liên quan đến doctor
     const doctor = await this.doctorRepo.findOne({ where: { userId: id } });
 
     if (doctor) {
-      // ---- 1. Xoá BOOKINGS liên quan đến SCHEDULE của doctor ----
+      // ---- 1. Xoá BOOKINGS → vì có FK đến schedule ----
       const schedules = await this.schedulesRepo.find({ where: { doctorId: doctor.id } });
 
       for (const schedule of schedules) {
@@ -134,17 +134,17 @@ export class UserService extends BaseService<User> {
       await this.schedulesRepo.delete({ doctorId: doctor.id });
 
       // ---- 3. Xoá NOTIFICATION ----
-      await this.notificationsRepo.delete({ receiverId: doctor.id });
+      await this.notificationsRepo.delete({ receiverId: id }); // receiver = userId
 
       // ---- 4. Xoá REVIEW ----
       await this.reviewsRepo.delete({ doctorId: doctor.id });
 
-      // ---- 5. Xoá DOCTOR (xoá thật, không soft) ----
+      // ---- 5. Xoá Doctor (soft delete) ----
       await this.doctorRepo.delete(doctor.id);
     }
 
-    // ---- 6. Xoá USER ----
-    await this.userRepo.softDelete(id);
+    // ---- 6. Xoá USER (soft delete) ----
+    await this.userRepo.delete(id);
 
     return {
       message: ERROR_MESSAGES.user.USER_DELETED_SUCCESSFULLY,
