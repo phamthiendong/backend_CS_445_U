@@ -12,12 +12,32 @@ import { ERROR_MESSAGES } from 'src/common/constants/errorMessage.constant';
 import { UserStatus } from './interfaces/user.interface';
 import { BaseService } from 'src/base/baseService';
 import { NotFoundException } from 'src/common/exceptions/notFound.exception';
+import { Doctor } from '../doctors/entities/doctor.entity';
+import { Notification } from '../notification/entities/notification.entity';
+import { Review } from '../reviews/entities/reviews.entities';
+import { Booking } from '../booking/entities/booking.entity';
+import { AppointmentSchedule } from '../schedule/entities/schedule.entity';
 
 @Injectable()
 export class UserService extends BaseService<User> {
   constructor(
     @InjectRepository(User)
-    private readonly userRepo: Repository<User>
+    private readonly userRepo: Repository<User>,
+
+    @InjectRepository(Doctor)
+    private readonly doctorRepo: Repository<Doctor>,
+
+    @InjectRepository(Notification)
+    private readonly notificationsRepo: Repository<Notification>,
+
+    @InjectRepository(Review)
+    private readonly reviewsRepo: Repository<Review>,
+
+    @InjectRepository(Booking)
+    private readonly bookingsRepo: Repository<Booking>,
+
+    @InjectRepository(AppointmentSchedule)
+    private readonly schedulesRepo: Repository<AppointmentSchedule>
   ) {
     super(userRepo);
   }
@@ -99,8 +119,32 @@ export class UserService extends BaseService<User> {
       throw new NotFoundException({ message: ERROR_MESSAGES.user.USER_NOT_FOUND });
     }
 
-    // Soft delete
-    await this.softDeleteById(id);
+    // Tìm doctor theo userId
+    const doctor = await this.doctorRepo.findOne({ where: { userId: id } });
+
+    if (doctor) {
+      // ---- 1. Xoá BOOKINGS liên quan đến SCHEDULE của doctor ----
+      const schedules = await this.schedulesRepo.find({ where: { doctorId: doctor.id } });
+
+      for (const schedule of schedules) {
+        await this.bookingsRepo.delete({ scheduleId: schedule.id });
+      }
+
+      // ---- 2. Xoá SCHEDULE ----
+      await this.schedulesRepo.delete({ doctorId: doctor.id });
+
+      // ---- 3. Xoá NOTIFICATION ----
+      await this.notificationsRepo.delete({ receiverId: doctor.id });
+
+      // ---- 4. Xoá REVIEW ----
+      await this.reviewsRepo.delete({ doctorId: doctor.id });
+
+      // ---- 5. Xoá DOCTOR (xoá thật, không soft) ----
+      await this.doctorRepo.delete(doctor.id);
+    }
+
+    // ---- 6. Xoá USER ----
+    await this.userRepo.softDelete(id);
 
     return {
       message: ERROR_MESSAGES.user.USER_DELETED_SUCCESSFULLY,

@@ -92,6 +92,8 @@ export const DEFAULT_ROLE_PERMISSIONS = {
   // ==================== DOCTOR ====================
   // Medical operations, patient management, consultations
   [ROLES.DOCTOR]: [
+    PERMISSIONS.USER_CREATE,
+
     // Profile Management
     PERMISSIONS.USER_VIEW_PROFILE,
     PERMISSIONS.DOCTOR_UPDATE_PROFILE,

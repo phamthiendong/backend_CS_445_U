@@ -1,6 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, DeleteDateColumn, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { UserStatus, IUser, UserRole } from '../interfaces/user.interface';
-import { ActivityLog } from 'src/modules/activityLogs/entities/activityLog.entity';
 
 @Entity('users')
 export class User implements IUser {
@@ -48,7 +47,4 @@ export class User implements IUser {
 
   @Column({ name: 'is_project_owner', type: 'boolean', default: false })
   isProjectOwner: boolean;
-
-  @OneToMany(() => ActivityLog, (activityLog) => activityLog.user, { cascade: true })
-  activityLogs?: ActivityLog[];
 }
